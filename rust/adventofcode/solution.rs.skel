@@ -1,0 +1,46 @@
+use anyhow::Result;
+use clap::Parser;
+use tracing::debug;
+
+use crate::{input, Command};
+
+#[derive(Debug, Parser)]
+pub enum Args {
+    Part1,
+    Part2,
+}
+
+impl Command for Args {
+    fn execute(&self) -> Result<String> {
+        match self {
+            Self::Part1 => part_one(),
+            Self::Part2 => part_two(),
+        }
+    }
+}
+
+fn part_one() -> Result<String> {
+    Ok(String::from(""))
+}
+
+fn part_two() -> Result<String> {
+    Ok(String::from(""))
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[tracing_test::traced_test]
+    #[test]
+    fn test_part_one() -> Result<()> {
+        Ok(())
+    }
+
+    #[tracing_test::traced_test]
+    #[test]
+    fn test_part_two() -> Result<()> {
+        Ok(())
+    }
+}
+
