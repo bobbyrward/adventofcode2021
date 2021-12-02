@@ -1,6 +1,5 @@
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use clap::Parser;
-use tracing::debug;
 
 use crate::{input, Command};
 
@@ -19,7 +18,7 @@ impl Command for Args {
     }
 }
 
-fn find_deltas(measurements: &Vec<i64>) -> Vec<i64> {
+fn find_deltas(measurements: &[i64]) -> Vec<i64> {
     measurements
         .iter()
         .zip(measurements.iter().skip(1))
@@ -27,7 +26,7 @@ fn find_deltas(measurements: &Vec<i64>) -> Vec<i64> {
         .collect::<Vec<_>>()
 }
 
-fn find_sliding_deltas(measurements: &Vec<i64>) -> Vec<i64> {
+fn find_sliding_deltas(measurements: &[i64]) -> Vec<i64> {
     let sums = measurements
         .iter()
         .zip(measurements.iter().skip(1))
@@ -67,12 +66,6 @@ fn part_two() -> Result<String> {
 mod test {
     use super::*;
     use tracing_test::traced_test;
-
-    #[traced_test]
-    #[test]
-    fn test_find_paired() -> Result<()> {
-        Ok(())
-    }
 
     #[traced_test]
     #[test]
