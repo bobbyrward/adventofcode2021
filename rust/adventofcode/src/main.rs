@@ -54,7 +54,7 @@ macro_rules! solution {
 }
 
 // NOTE: Each solution module must be added here
-solution!(day01);
+solution!(day01, day02);
 
 fn main() -> Result<()> {
     let args = args::Args::parse();
