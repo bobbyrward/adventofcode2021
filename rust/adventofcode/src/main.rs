@@ -5,7 +5,7 @@ mod point;
 
 use anyhow::Result;
 use clap::Parser;
-use tracing_subscriber::FmtSubscriber;
+use tracing_subscriber::fmt::format::FmtSpan;
 
 use crate::command::Command;
 
@@ -59,8 +59,10 @@ solution!(day01, day02, day03);
 fn main() -> Result<()> {
     let args = args::Args::parse();
 
-    FmtSubscriber::builder()
+    tracing_subscriber::fmt()
+        .pretty()
         .with_env_filter(args.env_filter())
+        .with_span_events(FmtSpan::NEW | FmtSpan::CLOSE)
         .init();
 
     let solution = args.command.execute()?;

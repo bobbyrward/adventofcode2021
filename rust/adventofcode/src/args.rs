@@ -5,7 +5,7 @@ use crate::Solutions;
 
 #[derive(Debug, Parser)]
 pub struct Args {
-    #[clap(long, default_value = "warn")]
+    #[clap(long, default_value = "warn", global = true)]
     pub logging_filter: String,
 
     #[clap(subcommand)]

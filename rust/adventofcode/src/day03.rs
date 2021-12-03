@@ -28,6 +28,7 @@ const fn sized_inverse(bits: usize, n: u64) -> u64 {
     n << (64 - bits) >> (64 - bits)
 }
 
+#[tracing::instrument(level = "debug", skip(items))]
 fn find_most_common_bits<'a, I>(items: I, bits: usize) -> u64
 where
     I: IntoIterator<Item = &'a u64>,
@@ -55,6 +56,7 @@ where
     result
 }
 
+#[tracing::instrument(level = "debug", skip(items))]
 fn find_rating<'a, I>(items: I, bits: usize, use_most: bool) -> u64
 where
     I: IntoIterator<Item = &'a u64>,
@@ -85,6 +87,7 @@ where
     panic!("Should never reach here");
 }
 
+#[tracing::instrument(level = "debug")]
 fn part_one() -> Result<String> {
     let mcb = find_most_common_bits(
         &input(crate::Day::day03)
@@ -97,6 +100,7 @@ fn part_one() -> Result<String> {
     Ok((mcb * sized_inverse(12, !mcb)).to_string())
 }
 
+#[tracing::instrument(level = "debug")]
 fn part_two() -> Result<String> {
     let items = input(crate::Day::day03)
         .lines()
