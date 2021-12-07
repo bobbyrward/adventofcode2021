@@ -39,9 +39,9 @@ where
     for item in items.into_iter() {
         length += 1;
 
-        for idx in 0..bits {
+        for (idx, count) in counts.iter_mut().enumerate() {
             if item & (1 << bit(bits, idx)) == 1 << bit(bits, idx) {
-                counts[idx] += 1;
+                *count += 1;
             }
         }
     }
@@ -49,8 +49,8 @@ where
     let mut result = 0u64;
     let half = length / 2 + length % 2;
 
-    for idx in 0..bits {
-        result |= if counts[idx] >= half { 1 } else { 0 } << (bits - 1 - idx);
+    for (idx, count) in counts.iter().enumerate() {
+        result |= if *count >= half { 1 } else { 0 } << (bits - 1 - idx);
     }
 
     result
