@@ -1,14 +1,106 @@
 use std::ops;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Dimension {
+    X,
+    Y,
+}
+
+impl Dimension {
+    pub fn other(&self) -> Self {
+        match self {
+            Self::X => Self::Y,
+            Self::Y => Self::X,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct DimensionedValue<T> {
+    dimension: Dimension,
+    value: T,
+}
+
+impl<T> DimensionedValue<T> {
+    pub fn new(dimension: Dimension, value: T) -> Self {
+        Self { dimension, value }
+    }
+}
+
+impl<T> DimensionedValue<T>
+where
+    T: Copy,
+{
+    pub fn apply(&self, point: &mut Point<T>) {
+        match self.dimension {
+            Dimension::X => point.x = self.value,
+            Dimension::Y => point.y = self.value,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Hash)]
 pub struct Point<T> {
     pub x: T,
     pub y: T,
 }
 
+pub trait Absolute {
+    fn absolute(&self) -> Self;
+}
+
+impl Absolute for i64 {
+    fn absolute(&self) -> Self {
+        self.abs()
+    }
+}
+
+impl Absolute for u64 {
+    fn absolute(&self) -> Self {
+        *self
+    }
+}
+
 impl<T> Point<T> {
     pub fn new(x: T, y: T) -> Self {
         Point { x, y }
+    }
+}
+
+impl<T> Point<T>
+where
+    T: Absolute,
+{
+    #[allow(dead_code)]
+    pub fn abs(&self) -> Self {
+        Self::new(self.x.absolute(), self.y.absolute())
+    }
+}
+
+impl<T> Point<T>
+where
+    T: Default + Copy,
+{
+    pub fn from_dimensioned_values(d1: DimensionedValue<T>, d2: DimensionedValue<T>) -> Self {
+        let mut p = Default::default();
+
+        d1.apply(&mut p);
+        d2.apply(&mut p);
+
+        p
+    }
+}
+
+impl<T> Point<T>
+where
+    T: Copy,
+{
+    #[allow(dead_code)]
+    pub fn get(&self, dimension: Dimension) -> T {
+        match dimension {
+            Dimension::X => self.x,
+            Dimension::Y => self.y,
+        }
     }
 }
 

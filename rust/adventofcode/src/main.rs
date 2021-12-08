@@ -10,7 +10,7 @@ use tracing_subscriber::fmt::format::FmtSpan;
 use crate::command::Command;
 
 #[allow(unused_imports)]
-use crate::point::Point;
+use crate::point::{Dimension, DimensionedValue, Point};
 
 macro_rules! solution {
     ($($day:ident),+) => {
@@ -54,7 +54,7 @@ macro_rules! solution {
 }
 
 // NOTE: Each solution module must be added here
-solution!(day01, day02, day03, day04);
+solution!(day01, day02, day03, day04, day05);
 
 fn main() -> Result<()> {
     let args = args::Args::parse();
